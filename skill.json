@@ -3,7 +3,7 @@
   "description": "Check cryptocurrency exchange balances across Binance, KuCoin, and Gate.io",
   "version": "1.0.0",
   "author": "dns7030",
-  "command": "node dist/index.js",
+  "command": "node index.js",
   "category": "web3-tools",
   "tags": ["crypto", "cryptocurrency", "exchange", "portfolio", "binance", "kucoin", "gateio", "web3", "defi", "trading", "balance"],
   "repository": "https://github.com/dns7030/cexPortofolioTracker",

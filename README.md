@@ -56,28 +56,23 @@ Copy the example environment file:
 cp .env.example .env
 ```
 
-Edit `.env` and add your API keys:
+Edit `.env` and add your READ-ONLY API keys:
 ```env
-# Binance API Keys (read-only permissions recommended)
+# Binance API Keys (READ-ONLY permissions only!)
 BINANCE_API_KEY=your_binance_api_key
 BINANCE_SECRET=your_binance_secret
 
-# KuCoin API Keys (read-only permissions recommended)
+# KuCoin API Keys (READ-ONLY permissions only!)
 KUCOIN_API_KEY=your_kucoin_api_key
 KUCOIN_SECRET=your_kucoin_secret
 KUCOIN_PASSPHRASE=your_kucoin_passphrase
 
-# Gate.io API Keys (read-only permissions recommended)
+# Gate.io API Keys (READ-ONLY permissions only!)
 GATE_API_KEY=your_gate_api_key
 GATE_SECRET=your_gate_secret
 ```
 
-3. **Build the skill**
-```bash
-npm run build
-```
-
-4. **Test locally**
+3. **Run the skill - No build step needed!**
 ```bash
 npm start                  # Show all balances
 npm start -- --summary     # Show summary only
@@ -166,30 +161,22 @@ When creating API keys for this skill:
 - Monitor your exchange account for suspicious activity
 - Immediately revoke keys if you suspect compromise
 
-## Development
-
-```bash
-npm run build      # Compile TypeScript
-npm run watch      # Watch mode for development
-npm start          # Run the compiled skill
-```
-
 ## Project Structure
 
 ```
-src/
-├── index.ts            # Skill entry point with CLI formatting
-├── lib/
-│   ├── exchanges.ts    # CCXT integration and balance fetching
-│   └── types.ts        # TypeScript type definitions
-skill.json              # Skill manifest
+index.js              # Skill entry point - pure JavaScript, no build needed!
+lib/
+└── exchanges.js      # CCXT integration and balance fetching
+skill.json            # Skill manifest
+.env                  # Your API keys (local only, never committed)
 ```
 
 ## Tech Stack
 
-- **Language:** TypeScript
+- **Language:** Pure JavaScript (ES Modules)
 - **Exchange API:** CCXT
-- **Runtime:** Node.js (ES Modules)
+- **Runtime:** Node.js 18+
+- **No Build Step:** Run directly with `node index.js`
 
 ## License
 

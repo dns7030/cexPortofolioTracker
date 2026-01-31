@@ -3,11 +3,7 @@
 /.pnp
 .pnp.js
 
-# Build output
-/dist
-*.tsbuildinfo
-
-# Environment variables
+# Environment variables (NEVER COMMIT!)
 .env
 .env*.local
 

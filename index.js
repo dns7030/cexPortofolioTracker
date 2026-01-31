@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 import { fetchAllBalances } from './lib/exchanges.js';
-import { ExchangeBalance, ExchangeName } from './lib/types.js';
 
-function formatCurrency(value: number): string {
+function formatCurrency(value) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -12,7 +11,7 @@ function formatCurrency(value: number): string {
   }).format(value);
 }
 
-function formatNumber(value: number): string {
+function formatNumber(value) {
   if (value < 0.01 && value > 0) {
     return value.toExponential(4);
   }
@@ -22,7 +21,7 @@ function formatNumber(value: number): string {
   });
 }
 
-function printExchangeBalance(exchange: ExchangeBalance): void {
+function printExchangeBalance(exchange) {
   console.log(`\n## ${exchange.displayName}`);
 
   if (exchange.error) {
@@ -68,7 +67,7 @@ function printExchangeBalance(exchange: ExchangeBalance): void {
 
 async function main() {
   const args = process.argv.slice(2);
-  const filterExchange = args[0]?.toLowerCase() as ExchangeName | undefined;
+  const filterExchange = args[0]?.toLowerCase();
   const summaryOnly = args.includes('--summary');
 
   console.log('# CEX Portfolio Balances\n');

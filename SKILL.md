@@ -83,15 +83,12 @@ GATE_API_KEY=your_key_here
 GATE_SECRET=your_secret_here
 ```
 
-5. **Build the skill:**
-```bash
-npm run build
-```
-
-6. **Test it works:**
+5. **Run the skill - No build step needed!**
 ```bash
 npm start
 ```
+
+That's it! Pure JavaScript means no compilation required.
 
 ## Usage
 
@@ -152,11 +149,12 @@ Once installed, use these commands in Claude Code:
 
 ## Technical Details
 
-- **Language:** TypeScript
-- **Runtime:** Node.js (ES Modules)
-- **Dependencies:** CCXT (cryptocurrency exchange library)
+- **Language:** Pure JavaScript (ES Modules) - No build step!
+- **Runtime:** Node.js 18+ (ES Modules)
+- **Dependencies:** Only CCXT (cryptocurrency exchange library)
 - **Storage:** Local `.env` file (never committed to git)
 - **Network:** Direct API calls to exchanges (no intermediary servers)
+- **Installation:** Clone, npm install, add API keys, run!
 
 ## Troubleshooting
 
