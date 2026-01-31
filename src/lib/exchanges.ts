@@ -1,5 +1,5 @@
 import * as ccxt from 'ccxt';
-import { ExchangeBalance, ExchangeConfig, ExchangeName, Asset, AccountType } from './types';
+import { ExchangeBalance, ExchangeConfig, ExchangeName, Asset, AccountType } from './types.js';
 
 const STABLECOINS = ['USDT', 'USDC', 'BUSD', 'DAI', 'TUSD', 'USDP', 'UST', 'FRAX'];
 
@@ -118,7 +118,8 @@ async function fetchBinanceEarnBalances(
 
   try {
     // Binance Simple Earn Flexible positions
-    const flexibleResponse = await (exchange as ccxt.binance).sapiGetSimpleEarnFlexiblePosition({});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const flexibleResponse = await (exchange as any).sapiGetSimpleEarnFlexiblePosition({});
     if (flexibleResponse && flexibleResponse.rows) {
       for (const item of flexibleResponse.rows) {
         const amount = parseFloat(item.totalAmount || '0');
@@ -133,7 +134,8 @@ async function fetchBinanceEarnBalances(
   } catch {
     // Try legacy savings endpoint
     try {
-      const savingsResponse = await (exchange as ccxt.binance).sapiGetLendingUnionAccount({});
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const savingsResponse = await (exchange as any).sapiGetLendingUnionAccount({});
       if (savingsResponse && savingsResponse.positionAmountVos) {
         for (const item of savingsResponse.positionAmountVos) {
           const amount = parseFloat(item.amount || '0');
@@ -152,7 +154,8 @@ async function fetchBinanceEarnBalances(
 
   // Also try locked earn products
   try {
-    const lockedResponse = await (exchange as ccxt.binance).sapiGetSimpleEarnLockedPosition({});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const lockedResponse = await (exchange as any).sapiGetSimpleEarnLockedPosition({});
     if (lockedResponse && lockedResponse.rows) {
       for (const item of lockedResponse.rows) {
         const amount = parseFloat(item.amount || '0');
@@ -179,7 +182,8 @@ async function fetchKucoinEarnBalances(
 
   try {
     // KuCoin Earn (savings) positions
-    const response = await (exchange as ccxt.kucoin).privateGetEarnOrders({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await (exchange as any).privateGetEarnOrders({
       status: 'HOLDING',
     });
 
@@ -197,7 +201,8 @@ async function fetchKucoinEarnBalances(
   } catch {
     // Try alternative endpoint
     try {
-      const savingsResponse = await (exchange as ccxt.kucoin).privateGetSavingsHolding({});
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const savingsResponse = await (exchange as any).privateGetSavingsHolding({});
       if (savingsResponse && savingsResponse.data) {
         for (const item of savingsResponse.data) {
           const amount = parseFloat(item.holdAmount || '0');
@@ -225,7 +230,8 @@ async function fetchGateEarnBalances(
 
   try {
     // Gate.io Earn API endpoint for savings
-    const response = await (exchange as ccxt.gateio).privateEarnGetUniLends({});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await (exchange as any).privateEarnGetUniLends({});
 
     if (Array.isArray(response)) {
       for (const item of response) {
@@ -241,7 +247,8 @@ async function fetchGateEarnBalances(
   } catch {
     // Try alternative endpoint
     try {
-      const response = await (exchange as ccxt.gateio).privateEarnGetUniLendRecords({});
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const response = await (exchange as any).privateEarnGetUniLendRecords({});
       if (Array.isArray(response)) {
         for (const item of response) {
           const amount = parseFloat(item.amount || '0');
