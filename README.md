@@ -27,27 +27,31 @@ A Claude Code skill for checking cryptocurrency exchange balances across Binance
 
 ## Features
 
+- ⚡ **ZERO INSTALLATION** - No npm install, no dependencies, just download and run!
 - Check balances from multiple exchanges in one command
 - View both Spot and Earn/Savings accounts
 - Real-time USD pricing via USDT trading pairs
 - Markdown-formatted output for easy reading
-- Lightweight - only CCXT dependency
+- Pure JavaScript using Node.js built-ins only
 
 ## Installation
 
 ### Prerequisites
-- Node.js 18+ and npm
+- Node.js 18+ (for native fetch support)
 - API keys from your exchanges (read-only permissions)
 
-### Setup
+### Setup (2 Steps!)
 
-1. **Clone and install**
+1. **Download the skill**
 ```bash
 git clone https://github.com/dns7030/cexPortofolioTracker.git
 cd cexPortofolioTracker
 git checkout skill
-npm install
 ```
+
+**OR download archive:**
+- [cex-balance-skill.zip](https://github.com/dns7030/cexPortofolioTracker/blob/skill/cex-balance-skill.zip)
+- [cex-balance-skill.tar.gz](https://github.com/dns7030/cexPortofolioTracker/blob/skill/cex-balance-skill.tar.gz)
 
 2. **Configure API keys**
 
@@ -72,12 +76,14 @@ GATE_API_KEY=your_gate_api_key
 GATE_SECRET=your_gate_secret
 ```
 
-3. **Run the skill - No build step needed!**
+3. **Run immediately - ZERO INSTALLATION!**
 ```bash
-npm start                  # Show all balances
-npm start -- --summary     # Show summary only
-npm start -- binance       # Show only Binance
+node index.js                  # Show all balances
+node index.js --summary        # Show summary only
+node index.js binance          # Show only Binance
 ```
+
+**That's it!** No npm install, no build, no dependencies!
 
 ## Usage in Claude Code
 
@@ -164,9 +170,12 @@ When creating API keys for this skill:
 ## Project Structure
 
 ```
-index.js              # Skill entry point - pure JavaScript, no build needed!
+index.js              # Skill entry point - pure JavaScript!
 lib/
-└── exchanges.js      # CCXT integration and balance fetching
+├── binance.js        # Native Binance API client (crypto + fetch)
+├── kucoin.js         # Native KuCoin API client
+├── gateio.js         # Native Gate.io API client
+└── exchanges.js      # Main orchestration logic
 skill.json            # Skill manifest
 .env                  # Your API keys (local only, never committed)
 ```
@@ -174,9 +183,13 @@ skill.json            # Skill manifest
 ## Tech Stack
 
 - **Language:** Pure JavaScript (ES Modules)
-- **Exchange API:** CCXT
-- **Runtime:** Node.js 18+
-- **No Build Step:** Run directly with `node index.js`
+- **Dependencies:** NONE! Uses Node.js built-ins only
+  - `crypto` module for HMAC-SHA256 signing
+  - `fetch()` for HTTP requests
+  - `process.env` for configuration
+- **Runtime:** Node.js 18+ (for native fetch support)
+- **Installation:** Download and run - that's it!
+- **Size:** ~25KB total (vs 4.5MB with CCXT)
 
 ## License
 
