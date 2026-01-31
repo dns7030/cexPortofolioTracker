@@ -13,7 +13,7 @@ No npm install. No dependencies. No build step. Just download and run!
 
 ### 2. Configure API Keys
 ```bash
-cp .env.example .env
+cp env.example .env
 # Edit .env with your READ-ONLY exchange API keys
 ```
 
