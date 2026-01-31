@@ -4,8 +4,11 @@
   "version": "1.0.0",
   "author": "dns7030",
   "command": "node dist/index.js",
-  "category": "finance",
-  "tags": ["crypto", "exchange", "portfolio", "binance", "kucoin", "gateio"],
+  "category": "web3-tools",
+  "tags": ["crypto", "cryptocurrency", "exchange", "portfolio", "binance", "kucoin", "gateio", "web3", "defi", "trading", "balance"],
+  "repository": "https://github.com/dns7030/cexPortofolioTracker",
+  "branch": "skill",
+  "license": "MIT",
   "env_vars": {
     "BINANCE_API_KEY": {
       "description": "Binance API key (read-only)",
