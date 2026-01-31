@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CEX Portfolio Tracker
 
-## Getting Started
+A simple portfolio tracker for your Binance, KuCoin, and Gate.io holdings. Built with Next.js, TailwindCSS, and CCXT.
 
-First, run the development server:
+## Features
+
+- View combined portfolio value across all exchanges
+- Per-exchange breakdown of holdings
+- Real-time USD values using exchange tickers
+- Responsive design for mobile and desktop
+- Deployable to Vercel
+
+## Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure API keys
+
+Copy the example environment file:
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` and add your API keys:
+
+```env
+# Binance API Keys (read-only permissions recommended)
+BINANCE_API_KEY=your_binance_api_key
+BINANCE_SECRET=your_binance_secret
+
+# KuCoin API Keys (read-only permissions recommended)
+KUCOIN_API_KEY=your_kucoin_api_key
+KUCOIN_SECRET=your_kucoin_secret
+KUCOIN_PASSPHRASE=your_kucoin_passphrase
+
+# Gate.io API Keys (read-only permissions recommended)
+GATE_API_KEY=your_gate_api_key
+GATE_SECRET=your_gate_secret
+```
+
+**Important:** Only use API keys with read-only permissions. Never enable trading or withdrawal permissions for security.
+
+### 3. Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view your portfolio.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy to Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Push your code to GitHub (make sure `.env.local` is in `.gitignore`)
+2. Import the project in [Vercel](https://vercel.com)
+3. Add your environment variables in Vercel's dashboard (Settings > Environment Variables)
+4. Deploy
 
-## Learn More
+## Creating API Keys
 
-To learn more about Next.js, take a look at the following resources:
+### Binance
+1. Go to [Binance API Management](https://www.binance.com/en/my/settings/api-management)
+2. Create a new API key
+3. Enable only "Read" permissions
+4. Restrict IP access if possible
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### KuCoin
+1. Go to [KuCoin API Management](https://www.kucoin.com/account/api)
+2. Create a new API key with a passphrase
+3. Enable only "General" permissions (read-only)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Gate.io
+1. Go to [Gate.io API Management](https://www.gate.io/myaccount/api_key_manage)
+2. Create a new APIv4 key
+3. Enable only read permissions for spot accounts
 
-## Deploy on Vercel
+## Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework:** Next.js 14 (App Router)
+- **Styling:** TailwindCSS
+- **Exchange API:** CCXT
+- **Data Fetching:** TanStack Query (React Query)
+- **Language:** TypeScript
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── api/
+│   │   └── portfolio/
+│   │       └── route.ts    # Portfolio API endpoint
+│   ├── layout.tsx          # Root layout with providers
+│   ├── page.tsx            # Home page
+│   └── globals.css         # Global styles
+├── components/
+│   ├── Dashboard.tsx       # Main dashboard component
+│   ├── ExchangeCard.tsx    # Per-exchange card
+│   ├── AssetTable.tsx      # Asset list table
+│   ├── PortfolioSummary.tsx # Total value display
+│   ├── LoadingSpinner.tsx  # Loading indicator
+│   └── Providers.tsx       # React Query provider
+└── lib/
+    ├── exchanges.ts        # CCXT exchange wrapper
+    └── types.ts            # TypeScript types
+```
+
+## Security Notes
+
+- API keys are stored in environment variables, never in code
+- Only read-only API permissions should be used
+- The `.env.local` file is gitignored by default
+- Consider IP whitelisting on your exchange API settings
