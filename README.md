@@ -18,15 +18,15 @@ A Claude Code skill for checking cryptocurrency exchange balances across 7 major
 
 Download and install the skill:
 
-1. **Download**: [`cex-balance-skill-v2.0.0.zip`](cex-balance-skill-v2.0.0.zip) (19 KB)
+1. **Download**: [`cex-balance-skill.zip`](cex-balance-skill.zip) (19 KB)
 
 2. **Extract to skills directory**:
    ```bash
    # Windows
-   Expand-Archive -Path cex-balance-skill-v2.0.0.zip -DestinationPath $env:USERPROFILE\.claude\skills\cex-balance
+   Expand-Archive -Path cex-balance-skill.zip -DestinationPath $env:USERPROFILE\.claude\skills\cex-balance
 
    # macOS/Linux
-   unzip cex-balance-skill-v2.0.0.zip -d ~/.claude/skills/cex-balance
+   unzip cex-balance-skill.zip -d ~/.claude/skills/cex-balance
    ```
 
 3. **Configure API keys**:
@@ -70,8 +70,7 @@ cexPortofolioTracker/
 │   ├── SKILL.md                      # Skill manifest
 │   ├── README.md                     # Full documentation
 │   └── env.example                   # API key template
-├── cex-balance-skill-v2.0.0.zip     # Ready-to-install package (19 KB)
-├── PACKAGING_OPTIONS.md              # Different packaging approaches
+├── cex-balance-skill.zip             # Ready-to-install package (19 KB)
 └── CLAUDE.md                         # Project instructions for Claude Code
 
 ```
@@ -91,7 +90,6 @@ cexPortofolioTracker/
 ## Documentation
 
 - **[Full Installation Guide](cex-balance/INSTALL.md)** - Detailed setup instructions
-- **[Packaging Options](PACKAGING_OPTIONS.md)** - Different distribution approaches
 - **[Skill Documentation](cex-balance/SKILL.md)** - Complete skill reference
 
 ## Technical Details
