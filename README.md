@@ -12,6 +12,8 @@ A Claude Code skill for checking cryptocurrency exchange balances across 7 major
 6. **Gate.io** - Wide coin selection
 7. **KuCoin** - Altcoin powerhouse
 
+**[WARNING] Geo-Restrictions:** Some exchanges (Binance, KuCoin, Bybit) block API access from US and other restricted regions. If you see API errors mentioning restricted locations, you'll need to use a VPN with a non-restricted IP address to access these exchanges.
+
 ## Quick Install
 
 Download and install the skill:

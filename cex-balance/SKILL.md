@@ -17,6 +17,8 @@ Check your cryptocurrency exchange balances across 7 major centralized exchanges
 6. **Gate.io** - Wide coin selection
 7. **KuCoin** - Altcoin powerhouse
 
+**[WARNING] Geo-Restrictions:** Some exchanges (Binance, KuCoin, Bybit) block API access from US and other restricted regions. If you receive errors about restricted locations, you'll need to use a VPN with a non-restricted IP address.
+
 ## What This Skill Does
 
 This skill allows you to:
@@ -164,6 +166,11 @@ Once installed, use these commands in Claude Code:
 - Verify you have assets in your exchange account
 - Check that API key has permission to view account balances
 - Some exchanges may require specific permissions for Earn/Savings products
+
+**"Service unavailable from restricted location" or geo-restriction errors:**
+- Exchanges like Binance, KuCoin, and Bybit block API access from US and other restricted regions
+- Solution: Use a VPN connected to a non-restricted country (e.g., Europe, Asia)
+- The skill runs locally on your machine, so your VPN settings will apply to all API calls
 
 ## Security Best Practices
 
