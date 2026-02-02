@@ -16,15 +16,15 @@ A Claude Code skill for checking cryptocurrency exchange balances across 7 major
 
 Download and install the skill:
 
-1. **Download**: [`cex-balance-skill-v1.0.0.zip`](cex-balance-skill-v1.0.0.zip) (14 KB)
+1. **Download**: [`cex-balance-skill-v2.0.0.zip`](cex-balance-skill-v2.0.0.zip) (19 KB)
 
 2. **Extract to skills directory**:
    ```bash
    # Windows
-   Expand-Archive -Path cex-balance-skill-v1.0.0.zip -DestinationPath $env:USERPROFILE\.claude\skills\cex-balance
+   Expand-Archive -Path cex-balance-skill-v2.0.0.zip -DestinationPath $env:USERPROFILE\.claude\skills\cex-balance
 
    # macOS/Linux
-   unzip cex-balance-skill-v1.0.0.zip -d ~/.claude/skills/cex-balance
+   unzip cex-balance-skill-v2.0.0.zip -d ~/.claude/skills/cex-balance
    ```
 
 3. **Configure API keys**:
@@ -47,7 +47,8 @@ Download and install the skill:
 - [YES] View both Spot and Earn/Savings accounts
 - [YES] Real-time USD pricing via USDT trading pairs
 - [YES] Zero dependencies - pure JavaScript
-- [YES] 14 KB total size
+- [YES] 19 KB total size
+- [YES] Supports 7 major exchanges
 - [YES] No npm install required
 
 ## Security
@@ -67,7 +68,7 @@ cexPortofolioTracker/
 │   ├── SKILL.md                      # Skill manifest
 │   ├── README.md                     # Full documentation
 │   └── env.example                   # API key template
-├── cex-balance-skill-v1.0.0.zip     # Ready-to-install package
+├── cex-balance-skill-v2.0.0.zip     # Ready-to-install package (19 KB)
 ├── PACKAGING_OPTIONS.md              # Different packaging approaches
 └── CLAUDE.md                         # Project instructions for Claude Code
 
@@ -143,5 +144,18 @@ MIT License - See [LICENSE](cex-balance/LICENSE)
 
 ---
 
-**Version**: 1.0.0
-**Last Updated**: February 2026
+**Version**: 2.0.0
+**Last Updated**: February 2, 2026
+
+## Changelog
+
+### v2.0.0 (Feb 2, 2026)
+- ✨ Added support for 4 new exchanges (Coinbase, OKX, Bybit, Bitget)
+- 📈 Now supports 7 major exchanges (up from 3)
+- 🔧 Updated all documentation
+- 📦 Size: 19 KB (up from 14 KB)
+
+### v1.0.0 (Jan 31, 2026)
+- 🎉 Initial release
+- ✅ Support for Binance, Gate.io, KuCoin
+- 📦 Zero dependencies, 14 KB
