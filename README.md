@@ -1,196 +1,147 @@
-# CEX Balance Skill
+# CEX Portfolio Tracker - Claude Code Skill
 
-A Claude Code skill for checking cryptocurrency exchange balances across Binance, KuCoin, and Gate.io directly from chat.
+A Claude Code skill for checking cryptocurrency exchange balances across 7 major exchanges.
 
-## ⚠️ CRITICAL SECURITY DISCLAIMER
+## Supported Exchanges
 
-**READ THIS BEFORE USING THIS SKILL:**
+1. **Binance** - World's largest exchange
+2. **Coinbase** - Major US exchange
+3. **OKX** - Top global exchange
+4. **Bybit** - Derivatives and spot
+5. **Bitget** - Fast-growing exchange
+6. **Gate.io** - Wide coin selection
+7. **KuCoin** - Altcoin powerhouse
 
-1. **API KEYS ARE STORED LOCALLY** - This skill stores your exchange API keys in a `.env` file on YOUR local machine. The skill creator and contributors take **NO RESPONSIBILITY** for the security of your API keys or any losses incurred from their use.
+## Quick Install
 
-2. **USE READ-ONLY API KEYS ONLY** - **NEVER** use API keys with trading, withdrawal, or transfer permissions. Only create API keys with **READ-ONLY** permissions on your exchange accounts.
+Download and install the skill:
 
-3. **YOU ARE RESPONSIBLE FOR YOUR SECURITY** - By using this skill, you accept full responsibility for:
-   - Securing your API keys
-   - Ensuring your `.env` file is never committed to version control
-   - Using read-only API permissions only
-   - Any unauthorized access to your accounts
-   - Any financial losses that may occur
+1. **Download**: [`cex-balance-skill-v1.0.0.zip`](cex-balance-skill-v1.0.0.zip) (14 KB)
 
-4. **NO WARRANTY** - This software is provided "AS IS" without warranty of any kind. The authors are not liable for any damages or losses.
+2. **Extract to skills directory**:
+   ```bash
+   # Windows
+   Expand-Archive -Path cex-balance-skill-v1.0.0.zip -DestinationPath $env:USERPROFILE\.claude\skills\cex-balance
 
-5. **VERIFY PERMISSIONS** - Before adding API keys to this skill, verify on your exchange that the keys have ONLY read permissions enabled. Disable all write/trade/withdraw permissions.
+   # macOS/Linux
+   unzip cex-balance-skill-v1.0.0.zip -d ~/.claude/skills/cex-balance
+   ```
 
-**If you don't understand these risks or are not comfortable storing API keys locally, DO NOT USE THIS SKILL.**
+3. **Configure API keys**:
+   ```bash
+   cd ~/.claude/skills/cex-balance
+   cp env.example .env
+   # Edit .env with your READ-ONLY exchange API keys
+   ```
 
----
+4. **Restart Claude Code**
+
+5. **Use the skill**:
+   ```
+   /cex-balance
+   ```
 
 ## Features
 
-- ⚡ **ZERO INSTALLATION** - No npm install, no dependencies, just download and run!
-- Check balances from multiple exchanges in one command
-- View both Spot and Earn/Savings accounts
-- Real-time USD pricing via USDT trading pairs
-- Markdown-formatted output for easy reading
-- Pure JavaScript using Node.js built-ins only
+- [YES] Check balances from multiple exchanges in one command
+- [YES] View both Spot and Earn/Savings accounts
+- [YES] Real-time USD pricing via USDT trading pairs
+- [YES] Zero dependencies - pure JavaScript
+- [YES] 14 KB total size
+- [YES] No npm install required
 
-## Installation
+## Security
 
-### Prerequisites
-- Node.js 18+ (for native fetch support)
-- API keys from your exchanges (read-only permissions)
+- [WARNING] Only use READ-ONLY API keys
+- [WARNING] API keys stored locally in `.env` file
+- [WARNING] You are fully responsible for your API key security
+- [NO] Never enable trading/withdrawal permissions
 
-### Setup (2 Steps!)
+## Repository Structure
 
-1. **Download the skill**
+```
+cexPortofolioTracker/
+├── cex-balance/                      # The skill source code
+│   ├── lib/                          # Exchange API clients
+│   ├── index.js                      # Main entry point
+│   ├── SKILL.md                      # Skill manifest
+│   ├── README.md                     # Full documentation
+│   └── env.example                   # API key template
+├── cex-balance-skill-v1.0.0.zip     # Ready-to-install package
+├── PACKAGING_OPTIONS.md              # Different packaging approaches
+└── CLAUDE.md                         # Project instructions for Claude Code
+
+```
+
+## Exchange Features
+
+| Exchange | Spot Balance | Earn/Savings | Notes |
+|----------|--------------|--------------|-------|
+| Binance | ✓ | ✓ | World's largest |
+| Coinbase | ✓ | - | US-based |
+| OKX | ✓ | ✓ | Full-featured |
+| Bybit | ✓ | - | Derivatives focus |
+| Bitget | ✓ | - | Copy trading |
+| Gate.io | ✓ | ✓ | 1000+ coins |
+| KuCoin | ✓ | ✓ | Altcoin variety |
+
+## Documentation
+
+- **[Full Installation Guide](cex-balance/INSTALL.md)** - Detailed setup instructions
+- **[Packaging Options](PACKAGING_OPTIONS.md)** - Different distribution approaches
+- **[Skill Documentation](cex-balance/SKILL.md)** - Complete skill reference
+
+## Technical Details
+
+- **Language**: Pure JavaScript (ES Modules)
+- **Runtime**: Node.js 18+ (for native `fetch()`)
+- **Dependencies**: ZERO - uses only Node.js built-in modules
+- **API Signing**: HMAC-SHA256 using `crypto` module
+- **Size**: 14 KB (compressed)
+
+## Development
+
 ```bash
+# Clone the repository
 git clone https://github.com/dns7030/cexPortofolioTracker.git
 cd cexPortofolioTracker
 git checkout skill
+
+# The skill is ready to use - no build step!
+cd cex-balance
+cp env.example .env
+# Edit .env with your API keys
+node index.js
 ```
 
-**OR download archive:**
-- [cex-balance-skill.zip](https://github.com/dns7030/cexPortofolioTracker/blob/skill/cex-balance-skill.zip)
-- [cex-balance-skill.tar.gz](https://github.com/dns7030/cexPortofolioTracker/blob/skill/cex-balance-skill.tar.gz)
+## Creating a New Release
 
-2. **Configure API keys**
-
-Copy the example environment file:
 ```bash
-cp .env.example .env
+# Create new release ZIP
+cd cexPortofolioTracker
+powershell -Command "Compress-Archive -Path cex-balance\* -DestinationPath cex-balance-skill-v1.0.1.zip -Force"
 ```
-
-Edit `.env` and add your READ-ONLY API keys:
-```env
-# Binance API Keys (READ-ONLY permissions only!)
-BINANCE_API_KEY=your_binance_api_key
-BINANCE_SECRET=your_binance_secret
-
-# KuCoin API Keys (READ-ONLY permissions only!)
-KUCOIN_API_KEY=your_kucoin_api_key
-KUCOIN_SECRET=your_kucoin_secret
-KUCOIN_PASSPHRASE=your_kucoin_passphrase
-
-# Gate.io API Keys (READ-ONLY permissions only!)
-GATE_API_KEY=your_gate_api_key
-GATE_SECRET=your_gate_secret
-```
-
-3. **Run immediately - ZERO INSTALLATION!**
-```bash
-node index.js                  # Show all balances
-node index.js --summary        # Show summary only
-node index.js binance          # Show only Binance
-```
-
-**That's it!** No npm install, no build, no dependencies!
-
-## Usage in Claude Code
-
-Once installed, use the skill in chat:
-
-```
-/cex-balance              # Check all configured exchanges
-/cex-balance binance      # Check only Binance
-/cex-balance --summary    # Show portfolio summary
-```
-
-## Output Format
-
-The skill outputs markdown-formatted tables:
-
-```markdown
-## Binance
-**Total Value:** $5,234.56
-
-### Spot Account
-| Asset | Amount | Price | USD Value |
-|-------|--------|-------|-----------|
-| BTC   | 0.12345678 | $45,000.00 | $5,555.56 |
-| ETH   | 1.5        | $3,000.00  | $4,500.00 |
-
-### Earn/Savings Account
-| Asset | Amount | Price | USD Value |
-|-------|--------|-------|-----------|
-| USDT  | 1,000  | $1.00 | $1,000.00 |
-```
-
-## Creating Exchange API Keys (READ-ONLY ONLY!)
-
-### ⚠️ CRITICAL: Only Enable Read Permissions
-
-When creating API keys for this skill:
-- ✅ **DO** enable: Read/View permissions only
-- ❌ **DO NOT** enable: Trading, Withdrawals, Transfers, or ANY write permissions
-- ✅ **DO** enable: IP whitelisting if possible (restrict to your IP)
-- ❌ **DO NOT** share these keys with anyone or commit them to git
-
-### Binance
-1. Go to [Binance API Management](https://www.binance.com/en/my/settings/api-management)
-2. Create a new API key
-3. **CRITICAL:** Enable **ONLY** "Read" permissions (uncheck all others!)
-4. Enable "Enable Reading" checkbox
-5. Disable ALL other permissions (Spot & Margin Trading, Futures, etc.)
-6. Restrict IP access to your local IP if possible
-7. Save the API key and secret immediately
-
-### KuCoin
-1. Go to [KuCoin API Management](https://www.kucoin.com/account/api)
-2. Create a new API key with a passphrase
-3. **CRITICAL:** Enable **ONLY** "General" permissions (read-only)
-4. Do NOT enable Trading, Transfer, or Withdrawal permissions
-5. Set IP restriction if possible
-6. Save all credentials (API Key, Secret, Passphrase)
-
-### Gate.io
-1. Go to [Gate.io API Management](https://www.gate.io/myaccount/api_key_manage)
-2. Create a new APIv4 key
-3. **CRITICAL:** Enable **ONLY** read permissions
-4. Permissions to enable: "Read only" for Spot, Wallet
-5. Do NOT enable Trading or Withdrawal permissions
-6. Bind IP address if possible
-7. Save the API key and secret
-
-## How API Keys Are Stored
-
-**Local Storage Only:**
-- API keys are stored in a `.env` file in the project root directory
-- This file exists ONLY on your local machine
-- The `.env` file is in `.gitignore` and will NEVER be committed to version control
-- The skill reads keys from environment variables at runtime
-- **No cloud storage, no remote servers** - everything runs locally
-
-**Your Responsibility:**
-- Keep your `.env` file secure
-- Never share or commit your `.env` file
-- Regularly rotate your API keys
-- Monitor your exchange account for suspicious activity
-- Immediately revoke keys if you suspect compromise
-
-## Project Structure
-
-```
-index.js              # Skill entry point - pure JavaScript!
-lib/
-├── binance.js        # Native Binance API client (crypto + fetch)
-├── kucoin.js         # Native KuCoin API client
-├── gateio.js         # Native Gate.io API client
-└── exchanges.js      # Main orchestration logic
-skill.json            # Skill manifest
-.env                  # Your API keys (local only, never committed)
-```
-
-## Tech Stack
-
-- **Language:** Pure JavaScript (ES Modules)
-- **Dependencies:** NONE! Uses Node.js built-ins only
-  - `crypto` module for HMAC-SHA256 signing
-  - `fetch()` for HTTP requests
-  - `process.env` for configuration
-- **Runtime:** Node.js 18+ (for native fetch support)
-- **Installation:** Download and run - that's it!
-- **Size:** ~25KB total (vs 4.5MB with CCXT)
 
 ## License
 
-MIT
+MIT License - See [LICENSE](cex-balance/LICENSE)
+
+## Disclaimer
+
+**NO WARRANTY**: This software is provided "AS IS" without warranty. You are fully responsible for:
+- Securing your API keys
+- Any financial losses
+- Verifying balance accuracy
+
+**USE AT YOUR OWN RISK**
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/dns7030/cexPortofolioTracker/issues)
+- **Repository**: [github.com/dns7030/cexPortofolioTracker](https://github.com/dns7030/cexPortofolioTracker)
+- **Branch**: `skill`
+
+---
+
+**Version**: 1.0.0
+**Last Updated**: February 2026

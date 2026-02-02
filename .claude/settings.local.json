@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app:*)",
+      "Bash(npx create-next-app@14:*)",
+      "Bash(powershell -Command \"Get-ChildItem -Path ''c:\\\\Users\\\\D\\\\windsurfTesting\\\\cexPortofolioTracker\\\\temp-next'' -Force | Move-Item -Destination ''c:\\\\Users\\\\D\\\\windsurfTesting\\\\cexPortofolioTracker'' -Force; Remove-Item -Path ''c:\\\\Users\\\\D\\\\windsurfTesting\\\\cexPortofolioTracker\\\\temp-next'' -Recurse -Force\")",
+      "Bash(powershell -Command:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(curl:*)",
+      "Bash(taskkill:*)",
+      "Bash(git config:*)",
+      "Bash(gh:*)",
+      "Bash(git commit:*)",
+      "Bash(git rm:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(node dist/index.js:*)",
+      "Bash(git push:*)",
+      "Bash(node index.js:*)",
+      "Bash(echo:*)",
+      "Bash(git reset:*)",
+      "Bash(node --version:*)",
+      "Bash(unzip:*)",
+      "Bash(powershell \"Get-Content cex-balance-skill.zip -Encoding Byte -TotalCount 100 | Format-Hex\")",
+      "Bash(python3:*)",
+      "Bash(node create-zip.js:*)",
+      "Bash(tar:*)",
+      "Bash(Get-ChildItem '$env:USERPROFILE\\\\.claude\\\\skills\\\\cex-balance')",
+      "Bash(Select-Object Name)",
+      "Bash(\")",
+      "Bash(export BINANCE_API_KEY=\"rPY5wEZhk5VMcjtF1lYkhFIk5yMEBHbjjc3wNWUw1jRVdZ9gkjhqZNZUds72xWSo\")",
+      "Bash(export BINANCE_SECRET=\"9rV05qtN2GfrbAOCaKIfUjZjKeXKi8jMp0Gabf5A7wJkB0IqQijx6jf15mA34uMk\")",
+      "Bash(export KUCOIN_API_KEY=\"696b3a7622ca320001d2c778\")",
+      "Bash(export KUCOIN_SECRET=\"4ef8db2d-159f-4675-84d7-abfa4bb7b141\")",
+      "Bash(export KUCOIN_PASSPHRASE=\"kucoinamazingpassphrase\")",
+      "Bash(export GATE_API_KEY=\"8a479d7b7a363dc93b4b9479b0490ebe\")",
+      "Bash(export:*)",
+      "WebFetch(domain:coinmarketcap.com)"
+    ]
+  }
+}

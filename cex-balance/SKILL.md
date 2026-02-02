@@ -1,29 +1,21 @@
 ---
 name: cex-balance
-description: Check cryptocurrency exchange balances across Binance, KuCoin, and Gate.io
-version: 1.0.0
-author: dns7030
-category: web3-tools
-tags:
-  - crypto
-  - cryptocurrency
-  - exchange
-  - portfolio
-  - binance
-  - kucoin
-  - gateio
-  - web3
-  - defi
-  - trading
-  - balance
-repository: https://github.com/dns7030/cexPortofolioTracker
-branch: skill
-license: MIT
+description: Check cryptocurrency exchange balances across 7 major exchanges (Binance, Coinbase, OKX, Bybit, Bitget, Gate.io, KuCoin). Shows spot and earn/savings balances with USD values. Use when asked about crypto portfolio, exchange balances, or holdings.
 ---
 
 # CEX Balance Checker
 
-Check your cryptocurrency exchange balances across multiple centralized exchanges (Binance, KuCoin, Gate.io) directly from Claude Code chat.
+Check your cryptocurrency exchange balances across 7 major centralized exchanges directly from Claude Code chat.
+
+## Supported Exchanges
+
+1. **Binance** - World's largest exchange
+2. **Coinbase** - Major US exchange
+3. **OKX** - Top global exchange
+4. **Bybit** - Derivatives and spot
+5. **Bitget** - Fast-growing exchange
+6. **Gate.io** - Wide coin selection
+7. **KuCoin** - Altcoin powerhouse
 
 ## What This Skill Does
 
@@ -33,7 +25,7 @@ This skill allows you to:
 - Get real-time USD valuations of your assets
 - See a consolidated portfolio summary
 
-## ⚠️ Critical Security Requirements
+## Critical Security Requirements
 
 **IMPORTANT - READ BEFORE INSTALLING:**
 
@@ -129,22 +121,22 @@ Once installed, use these commands in Claude Code:
 ### Binance
 1. Visit [Binance API Management](https://www.binance.com/en/my/settings/api-management)
 2. Create new API key
-3. ✅ Enable ONLY "Read" permission
-4. ❌ Disable ALL other permissions
+3. [YES] Enable ONLY "Read" permission
+4. [NO] Disable ALL other permissions
 5. Optional: Restrict to your IP address
 
 ### KuCoin
 1. Visit [KuCoin API Management](https://www.kucoin.com/account/api)
 2. Create new API key
-3. ✅ Enable ONLY "General" (read-only) permission
-4. ❌ Disable Trading, Transfer, Withdrawal
+3. [YES] Enable ONLY "General" (read-only) permission
+4. [NO] Disable Trading, Transfer, Withdrawal
 5. Optional: Set IP restriction
 
 ### Gate.io
 1. Visit [Gate.io API Management](https://www.gate.io/myaccount/api_key_manage)
 2. Create new APIv4 key
-3. ✅ Enable ONLY read permissions
-4. ❌ Disable Trading and Withdrawal
+3. [YES] Enable ONLY read permissions
+4. [NO] Disable Trading and Withdrawal
 5. Optional: Bind IP address
 
 ## Technical Details
@@ -175,13 +167,13 @@ Once installed, use these commands in Claude Code:
 
 ## Security Best Practices
 
-1. ✅ Only use READ-ONLY API keys
-2. ✅ Enable IP whitelisting on exchange
-3. ✅ Regularly rotate API keys
-4. ✅ Monitor account for suspicious activity
-5. ❌ Never share your API keys
-6. ❌ Never commit `.env` to version control
-7. ❌ Never enable trading/withdrawal permissions
+1. [YES] Only use READ-ONLY API keys
+2. [YES] Enable IP whitelisting on exchange
+3. [YES] Regularly rotate API keys
+4. [YES] Monitor account for suspicious activity
+5. [NO] Never share your API keys
+6. [NO] Never commit `.env` to version control
+7. [NO] Never enable trading/withdrawal permissions
 
 ## Disclaimer
 

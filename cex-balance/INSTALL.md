@@ -1,6 +1,6 @@
 # CEX Balance Skill - Zero Installation Guide
 
-## 🚀 ZERO INSTALLATION REQUIRED!
+##  ZERO INSTALLATION REQUIRED!
 
 No npm install. No dependencies. No build step. Just download and run!
 
@@ -44,18 +44,18 @@ node index.js binance      # Single exchange
 ### Binance
 1. Visit https://www.binance.com/en/my/settings/api-management
 2. Create new API key
-3. ✅ Enable ONLY "Read" permission
-4. ❌ Disable ALL other permissions
+3. [YES] Enable ONLY "Read" permission
+4. [NO] Disable ALL other permissions
 
 ### KuCoin
 1. Visit https://www.kucoin.com/account/api
 2. Create new API key
-3. ✅ Enable ONLY "General" (read-only)
+3. [YES] Enable ONLY "General" (read-only)
 
 ### Gate.io
 1. Visit https://www.gate.io/myaccount/api_key_manage
 2. Create new APIv4 key
-3. ✅ Enable ONLY read permissions
+3. [YES] Enable ONLY read permissions
 
 ## Files
 
@@ -68,7 +68,8 @@ cex-balance/
 │   ├── gateio.js     # Gate.io API client (5KB)
 │   └── exchanges.js  # Orchestration (6KB)
 ├── .env              # Your API keys (you create this)
-└── skill.json        # Skill manifest
+├── env.example       # Template for .env
+└── SKILL.md          # Skill manifest
 ```
 
 Total: ~25KB of pure JavaScript

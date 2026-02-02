@@ -2,7 +2,7 @@
 
 A Claude Code skill for checking cryptocurrency exchange balances across Binance, KuCoin, and Gate.io directly from chat.
 
-## ⚠️ CRITICAL SECURITY DISCLAIMER
+## [WARNING] CRITICAL SECURITY DISCLAIMER
 
 **READ THIS BEFORE USING THIS SKILL:**
 
@@ -117,13 +117,13 @@ The skill outputs markdown-formatted tables:
 
 ## Creating Exchange API Keys (READ-ONLY ONLY!)
 
-### ⚠️ CRITICAL: Only Enable Read Permissions
+### [WARNING] CRITICAL: Only Enable Read Permissions
 
 When creating API keys for this skill:
-- ✅ **DO** enable: Read/View permissions only
-- ❌ **DO NOT** enable: Trading, Withdrawals, Transfers, or ANY write permissions
-- ✅ **DO** enable: IP whitelisting if possible (restrict to your IP)
-- ❌ **DO NOT** share these keys with anyone or commit them to git
+- [YES] **DO** enable: Read/View permissions only
+- [NO] **DO NOT** enable: Trading, Withdrawals, Transfers, or ANY write permissions
+- [YES] **DO** enable: IP whitelisting if possible (restrict to your IP)
+- [NO] **DO NOT** share these keys with anyone or commit them to git
 
 ### Binance
 1. Go to [Binance API Management](https://www.binance.com/en/my/settings/api-management)

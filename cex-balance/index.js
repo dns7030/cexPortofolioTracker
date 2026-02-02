@@ -25,7 +25,7 @@ function printExchangeBalance(exchange) {
   console.log(`\n## ${exchange.displayName}`);
 
   if (exchange.error) {
-    console.log(`❌ Error: ${exchange.error}`);
+    console.log(`[ERROR] Error: ${exchange.error}`);
     return;
   }
 
@@ -82,7 +82,7 @@ async function main() {
       : balances;
 
     if (filteredBalances.length === 0) {
-      console.log('❌ No exchanges configured or no balances found.');
+      console.log('[ERROR] No exchanges configured or no balances found.');
       console.log('\nMake sure you have set up API keys in your environment variables:');
       console.log('- BINANCE_API_KEY, BINANCE_SECRET');
       console.log('- KUCOIN_API_KEY, KUCOIN_SECRET, KUCOIN_PASSPHRASE');
@@ -98,7 +98,7 @@ async function main() {
     if (summaryOnly) {
       console.log('## Portfolio Summary\n');
       for (const exchange of filteredBalances) {
-        const status = exchange.error ? '❌' : '✅';
+        const status = exchange.error ? '[ERROR]' : '[OK]';
         console.log(`${status} **${exchange.displayName}**: ${formatCurrency(exchange.totalUsdValue)}`);
       }
       console.log(`\n**Total Portfolio Value:** ${formatCurrency(totalValue)}`);
@@ -112,7 +112,7 @@ async function main() {
 
     console.log(`\n*Last updated: ${new Date().toLocaleString()}*`);
   } catch (error) {
-    console.error('❌ Error fetching balances:', error instanceof Error ? error.message : error);
+    console.error('[ERROR] Error fetching balances:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }
