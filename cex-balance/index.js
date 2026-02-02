@@ -1,6 +1,29 @@
 #!/usr/bin/env node
 
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import { fetchAllBalances } from './lib/exchanges.js';
+
+// Load .env file if it exists (zero-dependency approach)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const envPath = join(__dirname, '.env');
+
+try {
+  const envFile = readFileSync(envPath, 'utf8');
+  for (const line of envFile.split('\n')) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#')) {
+      const [key, ...valueParts] = trimmed.split('=');
+      if (key && valueParts.length > 0) {
+        process.env[key.trim()] = valueParts.join('=').trim();
+      }
+    }
+  }
+} catch {
+  // .env file doesn't exist or can't be read, use environment variables
+}
 
 function formatCurrency(value) {
   return new Intl.NumberFormat('en-US', {

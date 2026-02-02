@@ -37,12 +37,17 @@ export async function getKucoinSpotBalance(apiKey, secret, passphrase) {
     },
   });
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`KuCoin API error: ${response.status} - ${error}`);
+  const result = await response.json();
+
+  // KuCoin returns 200 even for errors, check the code field
+  if (result.code && result.code !== '200000') {
+    throw new Error(`KuCoin API error: ${result.code} - ${result.msg || 'Unknown error'}`);
   }
 
-  const result = await response.json();
+  if (!response.ok) {
+    const error = JSON.stringify(result);
+    throw new Error(`KuCoin API error: ${response.status} - ${error}`);
+  }
 
   // Parse balances
   const balances = [];
@@ -50,7 +55,11 @@ export async function getKucoinSpotBalance(apiKey, secret, passphrase) {
     for (const item of result.data) {
       // Only get trade (spot) accounts
       if (item.type === 'trade') {
-        const amount = parseFloat(item.balance || '0');
+        // KuCoin returns available + holds separately
+        const available = parseFloat(item.available || '0');
+        const holds = parseFloat(item.holds || '0');
+        const amount = available + holds;
+
         if (amount > 0 && item.currency) {
           balances.push({
             symbol: item.currency,
@@ -90,11 +99,21 @@ export async function getKucoinEarnBalance(apiKey, secret, passphrase) {
 
     if (response.ok) {
       const result = await response.json();
+
+      // KuCoin returns 200 even for errors, check the code field
+      if (result.code && result.code !== '200000') {
+        return earnAssets; // Return empty array on error
+      }
+
       if (result.data) {
         for (const item of result.data) {
           // Get main (earn/savings) accounts
           if (item.type === 'main') {
-            const amount = parseFloat(item.balance || '0');
+            // KuCoin returns available + holds separately
+            const available = parseFloat(item.available || '0');
+            const holds = parseFloat(item.holds || '0');
+            const amount = available + holds;
+
             if (amount > 0 && item.currency) {
               earnAssets.push({
                 symbol: item.currency,
