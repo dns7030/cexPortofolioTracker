@@ -144,10 +144,15 @@ MIT License - See [LICENSE](cex-balance/LICENSE)
 
 ---
 
-**Version**: 2.0.0
-**Last Updated**: February 2, 2026
+**Version**: 2.0.1
+**Last Updated**: February 14, 2026
 
 ## Changelog
+
+### v2.0.1 (Feb 14, 2026)
+- 🔧 Fixed .env file loading - skill now automatically loads environment variables
+- 📝 Updated documentation to remove npm references (true zero dependencies)
+- ✅ Verified skill works with Node.js 18+ without any installation
 
 ### v2.0.0 (Feb 2, 2026)
 - ✨ Added support for 4 new exchanges (Coinbase, OKX, Bybit, Bitget)

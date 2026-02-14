@@ -17,8 +17,6 @@ Check your cryptocurrency exchange balances across 7 major centralized exchanges
 6. **Gate.io** - Wide coin selection
 7. **KuCoin** - Altcoin powerhouse
 
-**[WARNING] Geo-Restrictions:** Some exchanges (Binance, KuCoin, Bybit) block API access from US and other restricted regions. If you receive errors about restricted locations, you'll need to use a VPN with a non-restricted IP address.
-
 ## What This Skill Does
 
 This skill allows you to:
@@ -39,7 +37,7 @@ This skill allows you to:
 ## Installation
 
 ### Prerequisites
-- Node.js 18+ and npm installed
+- Node.js 18+ installed
 - Exchange accounts with API key creation capability
 
 ### Setup Steps
@@ -49,19 +47,15 @@ This skill allows you to:
 git clone https://github.com/dns7030/cexPortofolioTracker.git
 cd cexPortofolioTracker
 git checkout skill
+cd cex-balance
 ```
 
-2. **Install dependencies:**
+2. **Create `.env` file:**
 ```bash
-npm install
+cp env.example .env
 ```
 
-3. **Create `.env` file:**
-```bash
-cp .env.example .env
-```
-
-4. **Add your READ-ONLY API keys to `.env`:**
+3. **Add your READ-ONLY API keys to `.env`:**
 ```env
 # Binance (READ-ONLY!)
 BINANCE_API_KEY=your_key_here
@@ -77,12 +71,14 @@ GATE_API_KEY=your_key_here
 GATE_SECRET=your_secret_here
 ```
 
-5. **Run the skill - No build step needed!**
+**Note:** The skill automatically loads your `.env` file when it runs - no additional configuration needed!
+
+4. **Run the skill - Zero installation, just run!**
 ```bash
-npm start
+node index.js
 ```
 
-That's it! Pure JavaScript means no compilation required.
+That's it! Pure JavaScript with zero dependencies means no installation or compilation required.
 
 ## Usage
 
@@ -144,11 +140,11 @@ Once installed, use these commands in Claude Code:
 ## Technical Details
 
 - **Language:** Pure JavaScript (ES Modules) - No build step!
-- **Runtime:** Node.js 18+ (ES Modules)
-- **Dependencies:** Only CCXT (cryptocurrency exchange library)
-- **Storage:** Local `.env` file (never committed to git)
+- **Runtime:** Node.js 18+ (for native `fetch()` support)
+- **Dependencies:** ZERO - uses only Node.js built-in modules (`crypto`, `fetch`)
+- **Storage:** Local `.env` file (automatically loaded, never committed to git)
 - **Network:** Direct API calls to exchanges (no intermediary servers)
-- **Installation:** Clone, npm install, add API keys, run!
+- **Installation:** Download, add API keys, and run - that's it!
 
 ## Troubleshooting
 
@@ -166,11 +162,6 @@ Once installed, use these commands in Claude Code:
 - Verify you have assets in your exchange account
 - Check that API key has permission to view account balances
 - Some exchanges may require specific permissions for Earn/Savings products
-
-**"Service unavailable from restricted location" or geo-restriction errors:**
-- Exchanges like Binance, KuCoin, and Bybit block API access from US and other restricted regions
-- Solution: Use a VPN connected to a non-restricted country (e.g., Europe, Asia)
-- The skill runs locally on your machine, so your VPN settings will apply to all API calls
 
 ## Security Best Practices
 

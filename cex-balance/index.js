@@ -3,141 +3,30 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { fetchAllBalances } from './lib/exchanges.js';
 
-// Load .env file if it exists (zero-dependency approach)
+// Get the directory of the current file
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const envPath = join(__dirname, '.env');
 
+// Load .env file manually
 try {
+  const envPath = join(__dirname, '.env');
   const envFile = readFileSync(envPath, 'utf8');
-  for (const line of envFile.split('\n')) {
-    const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith('#')) {
-      const [key, ...valueParts] = trimmed.split('=');
-      if (key && valueParts.length > 0) {
-        process.env[key.trim()] = valueParts.join('=').trim();
-      }
+
+  envFile.split('\n').forEach(line => {
+    line = line.trim();
+    // Skip empty lines and comments
+    if (!line || line.startsWith('#')) return;
+
+    const match = line.match(/^([A-Z_]+)=(.*)$/);
+    if (match) {
+      const [, key, value] = match;
+      process.env[key] = value;
     }
-  }
-} catch {
-  // .env file doesn't exist or can't be read, use environment variables
-}
-
-function formatCurrency(value) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
-}
-
-function formatNumber(value) {
-  if (value < 0.01 && value > 0) {
-    return value.toExponential(4);
-  }
-  return value.toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 8,
   });
+} catch (error) {
+  // Silently fail if .env doesn't exist
 }
 
-function printExchangeBalance(exchange) {
-  console.log(`\n## ${exchange.displayName}`);
-
-  if (exchange.error) {
-    console.log(`[ERROR] Error: ${exchange.error}`);
-    return;
-  }
-
-  if (exchange.assets.length === 0) {
-    console.log('No assets found');
-    return;
-  }
-
-  console.log(`**Total Value:** ${formatCurrency(exchange.totalUsdValue)}\n`);
-
-  // Group by account type
-  const spotAssets = exchange.assets.filter(a => a.accountType === 'spot');
-  const earnAssets = exchange.assets.filter(a => a.accountType === 'earn');
-
-  if (spotAssets.length > 0) {
-    console.log('### Spot Account');
-    console.log('| Asset | Amount | Price | USD Value |');
-    console.log('|-------|--------|-------|-----------|');
-    for (const asset of spotAssets) {
-      console.log(
-        `| ${asset.symbol.padEnd(6)} | ${formatNumber(asset.amount).padEnd(14)} | ${formatCurrency(asset.price).padEnd(10)} | ${formatCurrency(asset.usdValue)} |`
-      );
-    }
-    console.log('');
-  }
-
-  if (earnAssets.length > 0) {
-    console.log('### Earn/Savings Account');
-    console.log('| Asset | Amount | Price | USD Value |');
-    console.log('|-------|--------|-------|-----------|');
-    for (const asset of earnAssets) {
-      console.log(
-        `| ${asset.symbol.padEnd(6)} | ${formatNumber(asset.amount).padEnd(14)} | ${formatCurrency(asset.price).padEnd(10)} | ${formatCurrency(asset.usdValue)} |`
-      );
-    }
-    console.log('');
-  }
-}
-
-async function main() {
-  const args = process.argv.slice(2);
-  const filterExchange = args[0]?.toLowerCase();
-  const summaryOnly = args.includes('--summary');
-
-  console.log('# CEX Portfolio Balances\n');
-  console.log('Fetching balances from configured exchanges...\n');
-
-  try {
-    const balances = await fetchAllBalances();
-
-    // Filter if exchange specified
-    const filteredBalances = filterExchange
-      ? balances.filter(b => b.exchange === filterExchange)
-      : balances;
-
-    if (filteredBalances.length === 0) {
-      console.log('[ERROR] No exchanges configured or no balances found.');
-      console.log('\nMake sure you have set up API keys in your environment variables:');
-      console.log('- BINANCE_API_KEY, BINANCE_SECRET');
-      console.log('- KUCOIN_API_KEY, KUCOIN_SECRET, KUCOIN_PASSPHRASE');
-      console.log('- GATE_API_KEY, GATE_SECRET');
-      process.exit(1);
-    }
-
-    const totalValue = filteredBalances.reduce(
-      (sum, ex) => sum + ex.totalUsdValue,
-      0
-    );
-
-    if (summaryOnly) {
-      console.log('## Portfolio Summary\n');
-      for (const exchange of filteredBalances) {
-        const status = exchange.error ? '[ERROR]' : '[OK]';
-        console.log(`${status} **${exchange.displayName}**: ${formatCurrency(exchange.totalUsdValue)}`);
-      }
-      console.log(`\n**Total Portfolio Value:** ${formatCurrency(totalValue)}`);
-    } else {
-      for (const exchange of filteredBalances) {
-        printExchangeBalance(exchange);
-      }
-      console.log('---');
-      console.log(`\n**Total Portfolio Value:** ${formatCurrency(totalValue)}`);
-    }
-
-    console.log(`\n*Last updated: ${new Date().toLocaleString()}*`);
-  } catch (error) {
-    console.error('[ERROR] Error fetching balances:', error instanceof Error ? error.message : error);
-    process.exit(1);
-  }
-}
-
-main();
+// Import and run the main index.original.js
+await import('./index.original.js');
