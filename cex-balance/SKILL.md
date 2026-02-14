@@ -1,7 +1,6 @@
 ---
 name: cex-balance
 description: Check cryptocurrency exchange balances across 7 major exchanges (Binance, Coinbase, OKX, Bybit, Bitget, Gate.io, KuCoin). Shows spot and earn/savings balances with USD values. Use when asked about crypto portfolio, exchange balances, or holdings.
-version: 2.0.1
 ---
 
 # CEX Balance Checker v2.0.1

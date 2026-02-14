@@ -116,9 +116,14 @@ node index.js
 ## Creating a New Release
 
 ```bash
-# Create new release ZIP
+# Create new release ZIP (with proper forward slashes for Claude.ai compatibility)
 cd cexPortofolioTracker
-powershell -Command "Compress-Archive -Path cex-balance\* -DestinationPath cex-balance-skill-v1.0.1.zip -Force"
+python build-release.py
+
+# OR use Node.js:
+# node build-release.js
+
+# DO NOT use PowerShell Compress-Archive - it creates backslashes that Claude.ai rejects!
 ```
 
 ## License
