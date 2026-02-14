@@ -1,9 +1,10 @@
 ---
 name: cex-balance
 description: Check cryptocurrency exchange balances across 7 major exchanges (Binance, Coinbase, OKX, Bybit, Bitget, Gate.io, KuCoin). Shows spot and earn/savings balances with USD values. Use when asked about crypto portfolio, exchange balances, or holdings.
+version: 2.0.1
 ---
 
-# CEX Balance Checker
+# CEX Balance Checker v2.0.1
 
 Check your cryptocurrency exchange balances across 7 major centralized exchanges directly from Claude Code chat.
 
@@ -45,9 +46,7 @@ This skill allows you to:
 1. **Clone the repository:**
 ```bash
 git clone https://github.com/dns7030/cexPortofolioTracker.git
-cd cexPortofolioTracker
-git checkout skill
-cd cex-balance
+cd cexPortofolioTracker/cex-balance
 ```
 
 2. **Create `.env` file:**
@@ -187,7 +186,7 @@ Once installed, use these commands in Claude Code:
 
 - GitHub Issues: https://github.com/dns7030/cexPortofolioTracker/issues
 - Repository: https://github.com/dns7030/cexPortofolioTracker
-- Branch: `skill`
+- Version: 2.0.1 (February 14, 2026)
 
 ## License
 

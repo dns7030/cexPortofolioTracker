@@ -105,11 +105,9 @@ cexPortofolioTracker/
 ```bash
 # Clone the repository
 git clone https://github.com/dns7030/cexPortofolioTracker.git
-cd cexPortofolioTracker
-git checkout skill
+cd cexPortofolioTracker/cex-balance
 
 # The skill is ready to use - no build step!
-cd cex-balance
 cp env.example .env
 # Edit .env with your API keys
 node index.js
@@ -140,7 +138,6 @@ MIT License - See [LICENSE](cex-balance/LICENSE)
 
 - **Issues**: [GitHub Issues](https://github.com/dns7030/cexPortofolioTracker/issues)
 - **Repository**: [github.com/dns7030/cexPortofolioTracker](https://github.com/dns7030/cexPortofolioTracker)
-- **Branch**: `skill`
 
 ---
 
