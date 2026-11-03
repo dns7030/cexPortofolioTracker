@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2b">
+  <title>Sign in · CEX Portfolio</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body class="login-page">
+  <main class="login-card">
+    <div class="mark" aria-hidden="true">◇</div>
+    <p class="eyebrow">PRIVATE DASHBOARD</p>
+    <h1>Your exchanges,<br>one clear view.</h1>
+    <p class="muted">Sign in to see your Binance, Gate, and KuCoin balances.</p>
+    <form id="login-form">
+      <label for="password">Dashboard password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required autofocus>
+      <button type="submit">Sign in <span aria-hidden="true">→</span></button>
+      <p id="login-error" class="form-error" role="alert" hidden></p>
+    </form>
+    <p class="login-foot">Balances are fetched when you open the page. Exchange keys stay on the server.</p>
+  </main>
+</body>
+</html>

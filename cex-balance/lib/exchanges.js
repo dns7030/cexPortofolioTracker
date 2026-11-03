@@ -1,5 +1,5 @@
 import { getBinanceSpotBalance, getBinanceEarnBalance, getBinanceTickers } from './binance.js';
-import { getKucoinSpotBalance, getKucoinEarnBalance, getKucoinTickers } from './kucoin.js';
+import { getKucoinSpotBalance, getKucoinFundingBalance, getKucoinEarnBalance, getKucoinTickers } from './kucoin.js';
 import { getGateSpotBalance, getGateEarnBalance, getGateTickers } from './gateio.js';
 import { getCoinbaseSpotBalance, getCoinbaseTickers } from './coinbase.js';
 import { getOKXSpotBalance, getOKXEarnBalance, getOKXTickers } from './okx.js';
@@ -117,7 +117,7 @@ async function fetchPrices(exchangeName, symbols, config) {
 }
 
 async function fetchExchangeBalance(config) {
-  if (!config.apiKey || !config.secret) {
+  if (!config.apiKey || !config.secret || (config.name === 'kucoin' && !config.password)) {
     return {
       exchange: config.name,
       displayName: config.displayName,
@@ -129,6 +129,7 @@ async function fetchExchangeBalance(config) {
 
   try {
     const allAssets = [];
+    const warnings = [];
 
     // Fetch spot balances
     let spotBalances = [];
@@ -160,9 +161,21 @@ async function fetchExchangeBalance(config) {
       allAssets.push({ symbol, amount, accountType: 'spot' });
     }
 
+    if (config.name === 'kucoin') {
+      try {
+        const fundingBalances = await getKucoinFundingBalance(config.apiKey, config.secret, config.password);
+        for (const { symbol, amount } of fundingBalances) {
+          allAssets.push({ symbol, amount, accountType: 'funding' });
+        }
+      } catch (error) {
+        warnings.push(`Funding balance unavailable: ${error.message}`);
+      }
+    }
+
     // Fetch earn balances (if supported)
     let earnBalances = [];
-    switch (config.name) {
+    try {
+      switch (config.name) {
       case 'binance':
         earnBalances = await getBinanceEarnBalance(config.apiKey, config.secret);
         break;
@@ -176,6 +189,9 @@ async function fetchExchangeBalance(config) {
         earnBalances = await getKucoinEarnBalance(config.apiKey, config.secret, config.password);
         break;
       // Coinbase, Bybit, Bitget don't have earn APIs or require different handling
+      }
+    } catch (error) {
+      warnings.push(`Earn balance unavailable: ${error.message}`);
     }
 
     for (const { symbol, amount } of earnBalances) {
@@ -188,6 +204,7 @@ async function fetchExchangeBalance(config) {
         displayName: config.displayName,
         assets: [],
         totalUsdValue: 0,
+        warnings,
       };
     }
 
@@ -217,6 +234,7 @@ async function fetchExchangeBalance(config) {
       displayName: config.displayName,
       assets,
       totalUsdValue,
+      warnings,
     };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -230,8 +248,8 @@ async function fetchExchangeBalance(config) {
   }
 }
 
-export async function fetchAllBalances() {
-  const configs = getExchangeConfigs();
+export async function fetchAllBalances(exchangeNames) {
+  const configs = getExchangeConfigs().filter(config => !exchangeNames || exchangeNames.includes(config.name));
 
   // Fetch all balances in parallel
   const balances = await Promise.all(

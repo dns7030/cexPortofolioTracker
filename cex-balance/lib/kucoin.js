@@ -17,10 +17,9 @@ function generatePassphrase(passphrase, secret) {
     .digest('base64');
 }
 
-export async function getKucoinSpotBalance(apiKey, secret, passphrase) {
+async function getPrivate(apiKey, secret, passphrase, endpoint) {
   const timestamp = Date.now().toString();
   const method = 'GET';
-  const endpoint = '/api/v1/accounts';
 
   const signature = signRequest(timestamp, method, endpoint, '', secret);
   const passphraseSignature = generatePassphrase(passphrase, secret);
@@ -33,7 +32,8 @@ export async function getKucoinSpotBalance(apiKey, secret, passphrase) {
       'KC-API-SIGN': signature,
       'KC-API-TIMESTAMP': timestamp,
       'KC-API-PASSPHRASE': passphraseSignature,
-      'KC-API-KEY-VERSION': '2',
+      'KC-API-KEY-VERSION': process.env.KUCOIN_API_KEY_VERSION || '2',
+      'Content-Type': 'application/json',
     },
   });
 
@@ -49,10 +49,14 @@ export async function getKucoinSpotBalance(apiKey, secret, passphrase) {
     throw new Error(`KuCoin API error: ${response.status} - ${error}`);
   }
 
-  // Parse balances
+  return result.data;
+}
+
+export async function getKucoinSpotBalance(apiKey, secret, passphrase) {
+  const data = await getPrivate(apiKey, secret, passphrase, '/api/v1/accounts');
   const balances = [];
-  if (result.data) {
-    for (const item of result.data) {
+  if (data) {
+    for (const item of data) {
       // Only get trade (spot) accounts
       if (item.type === 'trade') {
         // KuCoin returns available + holds separately
@@ -73,62 +77,28 @@ export async function getKucoinSpotBalance(apiKey, secret, passphrase) {
   return balances;
 }
 
+export async function getKucoinFundingBalance(apiKey, secret, passphrase) {
+  const data = await getPrivate(apiKey, secret, passphrase, '/api/v1/accounts');
+  return (data || []).filter(item => item.type === 'main').map(item => ({
+    symbol: item.currency,
+    amount: Number(item.available || 0) + Number(item.holds || 0),
+  })).filter(item => item.symbol && item.amount > 0);
+}
+
 export async function getKucoinEarnBalance(apiKey, secret, passphrase) {
-  const earnAssets = [];
-
-  try {
-    // Try to get earn positions
-    const timestamp = Date.now().toString();
-    const method = 'GET';
-    const endpoint = '/api/v1/accounts';
-
-    const signature = signRequest(timestamp, method, endpoint, '', secret);
-    const passphraseSignature = generatePassphrase(passphrase, secret);
-
-    const url = `${KUCOIN_API_BASE}${endpoint}`;
-
-    const response = await fetch(url, {
-      headers: {
-        'KC-API-KEY': apiKey,
-        'KC-API-SIGN': signature,
-        'KC-API-TIMESTAMP': timestamp,
-        'KC-API-PASSPHRASE': passphraseSignature,
-        'KC-API-KEY-VERSION': '2',
-      },
-    });
-
-    if (response.ok) {
-      const result = await response.json();
-
-      // KuCoin returns 200 even for errors, check the code field
-      if (result.code && result.code !== '200000') {
-        return earnAssets; // Return empty array on error
-      }
-
-      if (result.data) {
-        for (const item of result.data) {
-          // Get main (earn/savings) accounts
-          if (item.type === 'main') {
-            // KuCoin returns available + holds separately
-            const available = parseFloat(item.available || '0');
-            const holds = parseFloat(item.holds || '0');
-            const amount = available + holds;
-
-            if (amount > 0 && item.currency) {
-              earnAssets.push({
-                symbol: item.currency,
-                amount,
-              });
-            }
-          }
-        }
+  const balances = new Map();
+  for (let page = 1; page <= 100; page++) {
+    const data = await getPrivate(apiKey, secret, passphrase,
+      `/api/v1/earn/hold-assets?currentPage=${page}&pageSize=100`);
+    for (const item of data?.items || []) {
+      const amount = Number(item.holdAmount || 0);
+      if (item.currency && amount > 0) {
+        balances.set(item.currency, (balances.get(item.currency) || 0) + amount);
       }
     }
-  } catch {
-    // Earn API not available or no permissions
+    if (!data || page >= Number(data.totalPage || 1)) break;
   }
-
-  return earnAssets;
+  return [...balances].map(([symbol, amount]) => ({ symbol, amount }));
 }
 
 export async function getKucoinTickers(symbols) {

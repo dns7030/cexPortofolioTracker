@@ -2,6 +2,23 @@
 
 A Claude Code skill for checking cryptocurrency exchange balances across 7 major exchanges.
 
+## Private web dashboard (Railway)
+
+This repository also contains a small password-protected web dashboard for **Binance, Gate, and KuCoin**. It runs on Node.js 20+, uses the exchange clients in `cex-balance/lib`, and stores no balance history. Exchange requests happen on the server when the page loads or Refresh is clicked. API credentials are never sent to the browser.
+
+### Deploy
+
+1. Create a Railway service from this repository. Use the repository root as the service root. Railway can run `npm start`; set the start command to `npm start` if needed.
+2. In **Service → Variables**, add the names shown in [`railway.env.example`](railway.env.example). Set a unique `DASHBOARD_PASSWORD` (at least 12 characters) and a random `SESSION_SECRET` (at least 32 characters). You can generate the latter locally with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
+3. Add only the read-only exchange keys you use. For KuCoin, set `KUCOIN_API_KEY_VERSION` to the version shown on its API Management page. Missing exchanges appear as “Not connected.” Do not commit a filled environment file.
+4. Deploy, then use **Settings → Networking → Generate Domain**. Open the HTTPS domain and sign in with `DASHBOARD_PASSWORD`.
+
+To run locally, set `DASHBOARD_PASSWORD` and `SESSION_SECRET` in your shell, then run `npm start` and open `http://localhost:3000`. Run `npm test` for the server checks. The dashboard does not read `cex-balance/.env`; Railway variables are used at runtime.
+
+The dashboard currently shows Binance Spot and Simple Earn, Gate Spot and Uni lending, and KuCoin Spot, Funding, and Earn holdings. It does not include margin, futures, subaccounts, or every exchange savings product. USD estimates use available USDT pairs; an asset without a matching price is shown with a $0 estimate. An exchange API error may reflect key permissions, region restrictions, or exchange availability.
+
+Use dedicated read-only keys. Without Railway static outbound IPs, leave exchange IP allowlists off only if you accept that tradeoff and the exchange permits it. Railway's static outbound IP option can be added later without changing the app.
+
 ## Supported Exchanges
 
 1. **Binance** - World's largest exchange

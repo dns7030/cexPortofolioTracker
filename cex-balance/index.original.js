@@ -38,6 +38,7 @@ function printExchangeBalance(exchange) {
 
   // Group by account type
   const spotAssets = exchange.assets.filter(a => a.accountType === 'spot');
+  const fundingAssets = exchange.assets.filter(a => a.accountType === 'funding');
   const earnAssets = exchange.assets.filter(a => a.accountType === 'earn');
 
   if (spotAssets.length > 0) {
@@ -45,6 +46,18 @@ function printExchangeBalance(exchange) {
     console.log('| Asset | Amount | Price | USD Value |');
     console.log('|-------|--------|-------|-----------|');
     for (const asset of spotAssets) {
+      console.log(
+        `| ${asset.symbol.padEnd(6)} | ${formatNumber(asset.amount).padEnd(14)} | ${formatCurrency(asset.price).padEnd(10)} | ${formatCurrency(asset.usdValue)} |`
+      );
+    }
+    console.log('');
+  }
+
+  if (fundingAssets.length > 0) {
+    console.log('### Funding Account');
+    console.log('| Asset | Amount | Price | USD Value |');
+    console.log('|-------|--------|-------|-----------|');
+    for (const asset of fundingAssets) {
       console.log(
         `| ${asset.symbol.padEnd(6)} | ${formatNumber(asset.amount).padEnd(14)} | ${formatCurrency(asset.price).padEnd(10)} | ${formatCurrency(asset.usdValue)} |`
       );

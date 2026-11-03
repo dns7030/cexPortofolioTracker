@@ -1,0 +1,10 @@
+{
+  "name": "cex-portfolio-dashboard",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node web/server.js",
+    "test": "node --test"
+  }
+}

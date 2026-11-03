@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> The architecture below describes an older iteration and is not the current checkout. The current repository contains a zero-dependency Node dashboard in `web/` (start with `npm start`) and the original CLI in `cex-balance/`. See the root README for Railway setup.
+
 ## Commands
 
 ```bash

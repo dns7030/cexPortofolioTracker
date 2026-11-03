@@ -84,7 +84,7 @@ export async function getGateEarnBalance(apiKey, secret) {
 
       if (Array.isArray(data)) {
         for (const item of data) {
-          const amount = parseFloat(item.amount || item.current_amount || '0');
+          const amount = parseFloat(item.current_amount || item.amount || '0');
           if (amount > 0 && item.currency) {
             earnAssets.push({
               symbol: item.currency,
