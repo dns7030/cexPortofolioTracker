@@ -51,71 +51,29 @@ export async function getBinanceSpotBalance(apiKey, secret) {
 
 export async function getBinanceEarnBalance(apiKey, secret) {
   const earnAssets = [];
-
-  try {
-    // Try Simple Earn Flexible positions
-    const timestamp = Date.now();
-    const queryString = `timestamp=${timestamp}`;
-    const signature = signRequest(queryString, secret);
-
-    const url = `${BINANCE_API_BASE}/sapi/v1/simple-earn/flexible/position?${queryString}&signature=${signature}`;
-
-    const response = await fetch(url, {
-      headers: {
-        'X-MBX-APIKEY': apiKey,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.rows) {
-        for (const item of data.rows) {
-          const amount = parseFloat(item.totalAmount || '0');
-          if (amount > 0 && item.asset) {
-            earnAssets.push({
-              symbol: item.asset,
-              amount,
-            });
-          }
+  earnAssets.warnings = [];
+  for (const kind of ['flexible', 'locked']) {
+    try {
+      for (let current = 1; current <= 1000; current++) {
+        const queryString = `current=${current}&size=100&timestamp=${Date.now()}`;
+        const signature = signRequest(queryString, secret);
+        const response = await fetch(`${BINANCE_API_BASE}/sapi/v1/simple-earn/${kind}/position?${queryString}&signature=${signature}`, {
+          headers: { 'X-MBX-APIKEY': apiKey },
+          signal: AbortSignal.timeout(15000),
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const rows = data.rows || [];
+        for (const item of rows) {
+          const amount = Number(kind === 'flexible' ? item.totalAmount : item.amount);
+          if (amount > 0 && item.asset) earnAssets.push({ symbol: item.asset, amount });
         }
+        if (!rows.length || current * 100 >= Number(data.total || rows.length)) break;
       }
+    } catch (error) {
+      earnAssets.warnings.push(`${kind} Earn unavailable: ${error.message}`);
     }
-  } catch {
-    // Flexible earn not available or no permissions
   }
-
-  try {
-    // Try Simple Earn Locked positions
-    const timestamp = Date.now();
-    const queryString = `timestamp=${timestamp}`;
-    const signature = signRequest(queryString, secret);
-
-    const url = `${BINANCE_API_BASE}/sapi/v1/simple-earn/locked/position?${queryString}&signature=${signature}`;
-
-    const response = await fetch(url, {
-      headers: {
-        'X-MBX-APIKEY': apiKey,
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.rows) {
-        for (const item of data.rows) {
-          const amount = parseFloat(item.amount || '0');
-          if (amount > 0 && item.asset) {
-            earnAssets.push({
-              symbol: item.asset,
-              amount,
-            });
-          }
-        }
-      }
-    }
-  } catch {
-    // Locked earn not available
-  }
-
   return earnAssets;
 }
 

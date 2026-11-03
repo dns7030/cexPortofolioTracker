@@ -194,6 +194,7 @@ async function fetchExchangeBalance(config) {
       warnings.push(`Earn balance unavailable: ${error.message}`);
     }
 
+    warnings.push(...(earnBalances.warnings || []));
     for (const { symbol, amount } of earnBalances) {
       allAssets.push({ symbol, amount, accountType: 'earn' });
     }
