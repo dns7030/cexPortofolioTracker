@@ -68,6 +68,7 @@ export function createDashboardServer({
   if (!password || password.length < 12) throw new Error('DASHBOARD_PASSWORD must have at least 12 characters');
   if (!sessionSecret || sessionSecret.length < 32) throw new Error('SESSION_SECRET must have at least 32 characters');
 
+  const cookieSecret = crypto.createHmac('sha256', sessionSecret).update(password).digest();
   const failures = new Map();
   let cached;
   let pending;
@@ -92,7 +93,7 @@ export function createDashboardServer({
     try {
       const url = new URL(req.url, 'http://localhost');
       const path = url.pathname;
-      const authorized = hasSession(req, sessionSecret);
+      const authorized = hasSession(req, cookieSecret);
       const local = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(req.headers.host || '');
       const secure = local ? '' : '; Secure';
 
@@ -118,7 +119,7 @@ export function createDashboardServer({
         }
         failures.delete(ip);
         return send(res, 200, JSON.stringify({ ok: true }), undefined, {
-          'Set-Cookie': `cex_session=${cookieValue(sessionSecret)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${SESSION_SECONDS}${secure}`,
+          'Set-Cookie': `cex_session=${cookieValue(cookieSecret)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${SESSION_SECONDS}${secure}`,
         });
       }
       if (req.method === 'POST' && path === '/api/logout') {
