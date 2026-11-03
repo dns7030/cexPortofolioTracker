@@ -53,8 +53,9 @@ if (list) {
       return card;
     }
     for (const warning of exchange.warnings || []) card.append(element('p', 'exchange-warning', warning));
-    if (!exchange.assets?.length) {
-      card.append(element('p', 'exchange-message', 'No balances found in the supported accounts.'));
+    const visibleAssets = (exchange.assets || []).filter(asset => asset.usdValue >= 1);
+    if (!visibleAssets.length) {
+      card.append(element('p', 'exchange-message', 'No balances worth $1 or more.'));
       return card;
     }
     const table = element('table', 'asset-table');
@@ -63,7 +64,7 @@ if (list) {
     for (const label of ['Asset', 'Account', 'Amount', 'Est. value']) titles.append(element('th', '', label));
     thead.append(titles);
     const tbody = element('tbody');
-    for (const asset of exchange.assets) {
+    for (const asset of visibleAssets) {
       const row = element('tr');
       row.append(element('td', 'symbol', asset.symbol));
       row.append(element('td', 'account-type', asset.accountType));
