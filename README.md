@@ -9,7 +9,7 @@ This repository also contains a small password-protected web dashboard for **Bin
 ### Deploy
 
 1. Create a Railway service from this repository. Use the repository root as the service root. Railway can run `npm start`; set the start command to `npm start` if needed.
-2. In **Service → Variables**, add the names shown in [`railway.env.example`](railway.env.example). Set a unique `DASHBOARD_PASSWORD` (at least 12 characters) and a random `SESSION_SECRET` (at least 32 characters). You can generate the latter locally with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
+2. In **Service → Variables**, add the names shown in [`railway.env.example`](railway.env.example). Set a unique `DASHBOARD_PASSWORD` (at least 6 characters) and a random `SESSION_SECRET` (at least 32 characters). You can generate the latter locally with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
 3. Add only the read-only exchange keys you use. For KuCoin, set `KUCOIN_API_KEY_VERSION` to the version shown on its API Management page. Missing exchanges appear as “Not connected.” Do not commit a filled environment file.
 4. Deploy, then use **Settings → Networking → Generate Domain**. Open the HTTPS domain and sign in with `DASHBOARD_PASSWORD`.
 

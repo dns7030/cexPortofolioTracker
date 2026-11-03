@@ -65,7 +65,7 @@ export function createDashboardServer({
   sessionSecret = process.env.SESSION_SECRET,
   getBalances = () => fetchAllBalances(EXCHANGES),
 } = {}) {
-  if (!password || password.length < 12) throw new Error('DASHBOARD_PASSWORD must have at least 12 characters');
+  if (!password || password.length < 6) throw new Error('DASHBOARD_PASSWORD must have at least 6 characters');
   if (!sessionSecret || sessionSecret.length < 32) throw new Error('SESSION_SECRET must have at least 32 characters');
 
   const cookieSecret = crypto.createHmac('sha256', sessionSecret).update(password).digest();
